@@ -1,46 +1,75 @@
-import tkinter as tk
+from tkinter import *
+from tkinter import ttk
+from tkinter import filedialog
 import function
 
 
-HEIGHT = 300
-WIDTH = 600
+class Root(Tk):
+    def __init__(self):
+        super(Root,self).__init__()
+        self.title("PDF Encrypter")
+        self.minsize(600,400)
+        self.excel_frame()
+        self.pdf_frame()
+        self.load_frame()
 
 
+    def excel_frame(self):
+        self.x = 10
+        self.labelframe = ttk.LabelFrame(self)
+        self.labelframe.place(relwidth = 0.8, relheight = 0.3, relx = 0.1, rely = 0.1)
+        self.button = ttk.Button(self.labelframe, text="Select File", command = self.fileDialog)
+        self.button.place(relx = 0.75, rely =0.5, width = 100, height = 25)
+        self.label = ttk.Label(self.labelframe, text='The configurated file path:')
+        self.label.place(relx = 0.1, rely=0.2)
+        self.e_entry = ttk.Entry(self.labelframe)
+        self.e_entry.place(relx = 0.1, rely =0.5, relwidth = 0.6, height = 25)
 
 
-root = tk.Tk()
+    def pdf_frame(self):
+        self.labelframe = ttk.LabelFrame(self)
+        self.labelframe.place(relwidth = 0.8, relheight=0.3, relx =0.1, rely = 0.4)
+        self.button = ttk.Button(self.labelframe, text="Select Path", command = self.dirDialog)
+        self.button.place(relx = 0.75, rely =0.5, width = 100, height = 25)
+        self.label = ttk.Label(self.labelframe, text='The PDF files path:')
+        self.label.place(relx = 0.1, rely=0.2)
+        self.p_entry = ttk.Entry(self.labelframe)
+        self.p_entry.place(relx = 0.1, rely =0.5, relwidth = 0.6, height = 25)
 
-canvas = tk.Canvas(root, height =HEIGHT, width=WIDTH)
-canvas.pack()
+    def load_frame(self):
+        self.labelframe = ttk.LabelFrame(self)
+        self.labelframe.place(relwidth = 0.8, relheight=0.2, relx = 0.1, rely = 0.7)
+        self.button = ttk.Button(self.labelframe, text="Encrypt", command = lambda: function.main(self.e_entry.get(),self.p_entry.get()))
+        self.button.place(relx=0.75, rely=0.4, width=100, height=25)
 
-excel_frame = tk.Frame(root, bg="blue")
-excel_frame.place(relwidth = 0.8, relheight = 0.3, relx = 0.1, rely = 0.1)
+    def fileDialog(self):
+        self.filename = filedialog.askopenfilename(initialdir =  "/", title = "Select A File", filetype =
+        (("Excel Workbook","*.xlsx"),
+         ("Excel Marco-Enabled Workbook","*.xlsm"),
+         ("Excel Template","*.xltx"),
+         ("Excel Marco-Enabled Template","*.xltm"),
+         ("Excel 97-2003 Worksheet","*.xls"),
+         ("Excel 97-2003 Template","*.xlt"),
+         ("Excel 97-2003 Macro",".xlm"),
+         ("all files","*.*")))
+        self.e_entry.insert(0,self.filename)
 
-excel_lable = tk.Label(excel_frame, text='The configurated file path:')
-excel_lable.place(relx = 0.1, rely=0.2)
 
-excel_entry = tk.Entry(excel_frame)
-excel_entry.place(relx = 0.1, rely =0.5, relwidth = 0.6, height = 25)
+    def dirDialog(self):
+        self.dirpath = filedialog.askdirectory()
+        self.p_entry.insert(0,self.dirpath)
 
-excel_button = tk.Button(excel_frame, text = 'Browse')
-excel_button.place(relx = 0.75, rely =0.5, width = 100, height = 25)
+    def popup(self):
+        root = Tk()
+        root.title('Pop-Up windows')
+        w = 300
+        h = 200
+        sw=root.winfo_screenwidth()
+        sh=root.winfo_screenheight()
+        x=(sw-w)/2
+        y=(sh-h)/2
+        root.geometry('%dx%d+%d+%d' % (w, h, x, y))
 
-pdf_frame = tk.Frame(root, bg="red")
-pdf_frame.place(relwidth = 0.8, relheight=0.3, relx =0.1, rely = 0.4)
 
-pdf_lable = tk.Label(pdf_frame, text='The PDF files path:')
-pdf_lable.place(relx = 0.1, rely=0.2)
-
-pdf_entry = tk.Entry(pdf_frame)
-pdf_entry.place(relx = 0.1, rely =0.5, relwidth = 0.6, height = 25)
-
-pdf_button = tk.Button(pdf_frame, text = 'Browse')
-pdf_button.place(relx = 0.75, rely =0.5, width = 100, height = 25)
-
-load_frame = tk.Frame(root, bg="green")
-load_frame.place(relwidth = 0.8, relheight=0.2, relx = 0.1, rely = 0.7)
-
-load_button = tk.Button(load_frame, text = 'Encrypt')
-load_button.pack()
-
+root=Root()
 root.mainloop()

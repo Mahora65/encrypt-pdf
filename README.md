@@ -8,7 +8,7 @@ An excuable application with GUI to encrypt PDF files according to the username 
 ## Features
 
 - GUI application
-- Encrypt PDF which has a mactching file name with the username in input excel
+- Encrypt PDF which has a matching file name with the username in input excel
 - Creat a new files with the same name of the original files with suffix `-Encrypted`
 
 
